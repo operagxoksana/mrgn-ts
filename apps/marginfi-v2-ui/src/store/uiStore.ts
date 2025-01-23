@@ -9,7 +9,7 @@ import {
 } from "@mrgnlabs/mrgn-common";
 import { LendingModes, PoolTypes, DEFAULT_PRIORITY_SETTINGS, fetchPriorityFee } from "@mrgnlabs/mrgn-utils";
 
-import { SortType, sortDirection, SortAssetOption } from "~/types";
+import { SortType, sortDirection, SortAssetOption, PreviousTxnMrgnUi } from "~/types";
 import { Connection } from "@solana/web3.js";
 import { MarginfiAccountWrapper, PriorityFees } from "@mrgnlabs/marginfi-client-v2";
 
@@ -59,6 +59,12 @@ interface UiState {
   priorityFees: PriorityFees;
   accountLabels: Record<string, string>;
 
+  // PrevTxn
+  previousTxn: PreviousTxnMrgnUi | null;
+  isActionComplete: boolean;
+  setPreviousTxn: (previousTxn: PreviousTxnMrgnUi) => void;
+  setIsActionComplete: (isActionComplete: boolean) => void;
+
   // Actions
   setIsMenuDrawerOpen: (isOpen: boolean) => void;
   setIsFetchingData: (isOpen: boolean) => void;
@@ -95,6 +101,12 @@ const stateCreator: StateCreator<UiState, [], []> = (set, get) => ({
   ...DEFAULT_PRIORITY_SETTINGS,
   priorityFees: {},
   accountLabels: {},
+
+  // PrevTxn
+  previousTxn: null,
+  isActionComplete: false,
+  setIsActionComplete: (isActionComplete: boolean) => set({ isActionComplete }),
+  setPreviousTxn: (previousTxn: PreviousTxnMrgnUi) => set({ previousTxn }),
 
   // Actions
   setIsMenuDrawerOpen: (isOpen: boolean) => set({ isMenuDrawerOpen: isOpen }),
